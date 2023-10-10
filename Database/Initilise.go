@@ -6,7 +6,8 @@ func StartDatabase(dataStore string) (DD *DatabaseDepot, err error) {
 		Database: make(map[string]DatabaseContainer),
 	}
 	// Load Default Depot
-	if DD.AddDepot(dataStore) != nil {
+	err = DD.AddDepot(dataStore)
+	if err != nil {
 		return nil, err
 	}
 

@@ -2,6 +2,7 @@ package main
 
 import (
 	database "JsonLanguage/Database"
+	"JsonLanguage/server"
 	"fmt"
 	"os"
 	"path/filepath"
@@ -24,4 +25,8 @@ func main() {
 
 	DDepot.DatabaseList()
 
+	// Get Public Folder for templates and files
+	PFiles := filepath.Join(wd, "public")
+
+	server.StartServer(":80", PFiles)
 }
