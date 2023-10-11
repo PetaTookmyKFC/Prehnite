@@ -2,7 +2,7 @@ package main
 
 import (
 	database "JsonLanguage/Database"
-	"JsonLanguage/server"
+	"JsonLanguage/api"
 	"fmt"
 	"os"
 	"path/filepath"
@@ -17,16 +17,16 @@ func main() {
 	}
 	depoPath := filepath.Join(wd, "DatabaseDepot")
 
-	DDepot, err := database.StartDatabase(depoPath)
+	depot, err := database.StartDatabase(depoPath)
 	if err != nil {
 		fmt.Println(err)
 		os.Exit(2)
 	}
 
-	DDepot.DatabaseList()
+	// fmt.Println(len(DDepot.Containers))
 
 	// Get Public Folder for templates and files
 	PFiles := filepath.Join(wd, "public")
-
-	server.StartServer(":80", PFiles)
+	// Start Server and API
+	api.BindAndStartRoutes(":80", PFiles, depot)
 }

@@ -14,9 +14,16 @@ func sendFile(file string, w http.ResponseWriter, data interface{}) error {
 	fPath := filepath.Join(publicDir, file)
 	// Check file exist
 	if _, err := os.Stat(fPath); os.IsNotExist(err) {
-		// Handle Not Exist
-		w.WriteHeader(404)
-		w.Write([]byte("File Not Found! "))
+
+		err := &SRE{
+			Code: 404,
+			W:    w,
+		}
+		er := err.SendHTML()
+		if er != nil {
+			return er
+		}
+
 		return err
 	} else if err != nil {
 		w.WriteHeader(500)

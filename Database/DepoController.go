@@ -2,52 +2,52 @@ package database
 
 import (
 	"fmt"
+	"io/fs"
 	"os"
 	"path/filepath"
 	"strings"
 )
 
-type DatabaseDepot struct {
-	Database map[string]DatabaseContainer
+type DBDepot struct {
+	Containers map[string]DBContainer
 }
 
-func (DD *DatabaseDepot) AddDatabase(Name string, Location string) (id string, err error) {
-	RI := DatabaseContainer{
-		Name:     Name,
-		Location: Location,
-	}
+func (DD *DBDepot) AddDBContainer(Location string) error {
 
-	// Check if name already in Depot - Repeat ( Max Repeat 100)
+	// Create TmpName
+	TmpName := filepath.Base(Location)
+	// Check Container exists
 	Inc := 0
 	tooMany := false
-	orig := Name
+	orig := TmpName
 	found := true
 	for found && !tooMany {
 		if Inc > 100 {
 			tooMany = true
 		} else {
-			if _, ok := DD.Database[Name]; ok {
+			if _, ok := DD.Containers[TmpName]; ok {
 				// if name exists place _n* at the end
 				found = true
 				Inc++
-				fmt.Printf("NameExists : %s\n", Name)
-				Name = fmt.Sprintf("%s-n%d", orig, Inc)
+				fmt.Printf("NameExists : %s\n", TmpName)
+				TmpName = fmt.Sprintf("%s-n%d", orig, Inc)
 			} else {
 				found = false
 			}
 		}
 	}
-	if tooMany {
-		fmt.Println("TooMany")
-		return "", os.ErrExist
+
+	// Check Directory Exists
+	Inst_Container := DBContainer{
+		Database: make(map[string]Database),
 	}
 
-	id = Name
-	// Add database to Map with CustomID
-	DD.Database[id] = RI
-	return id, nil
-}
-func (DD *DatabaseDepot) AddDepot(Location string) error {
+	if _, ok := os.Stat(Location); os.IsNotExist(ok) {
+		os.MkdirAll(Location, fs.ModeDir)
+	} else if ok != nil {
+		return ok
+	}
+
 	// Scan Directory
 	dirItem, err := os.ReadDir(Location)
 	if err != nil {
@@ -63,7 +63,7 @@ func (DD *DatabaseDepot) AddDepot(Location string) error {
 
 			if filepath.Ext(tmpName) == ".db" {
 				// Add Database to Depot
-				_, err = DD.AddDatabase(
+				_, err = Inst_Container.AddDatabase(
 					strings.TrimSuffix(tmpName, filepath.Ext(tmpName)),
 					filepath.Join(Location, tmpName),
 				)
@@ -73,10 +73,20 @@ func (DD *DatabaseDepot) AddDepot(Location string) error {
 			}
 		}
 	}
+	DD.Containers[TmpName] = Inst_Container
 	return nil
 }
-func (DD *DatabaseDepot) DatabaseList() {
-	for _, value := range DD.Database {
-		fmt.Printf("%s : %s", value.Name, value.Location)
+
+func (DD *DBDepot) ListContainers() []string {
+	var rString []string
+	for id := range DD.Containers {
+		rString = append(rString, id)
 	}
+	return rString
 }
+
+// func (DD *DBContainer) DatabaseList() {
+// 	for _, value := range DD.Database {
+// 		fmt.Printf("%s : %s", value.Name, value.Location)
+// 	}
+// }

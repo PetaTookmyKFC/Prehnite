@@ -1,12 +1,14 @@
 package database
 
-func StartDatabase(dataStore string) (DD *DatabaseDepot, err error) {
-	// Create Empty Depot
-	DD = &DatabaseDepot{
-		Database: make(map[string]DatabaseContainer),
+func StartDatabase(dataStore string) (DD *DBDepot, err error) {
+
+	// Initilise the Depot
+	DD = &DBDepot{
+		Containers: make(map[string]DBContainer),
 	}
-	// Load Default Depot
-	err = DD.AddDepot(dataStore)
+
+	// Add the buildin Depot
+	err = DD.AddDBContainer(dataStore)
 	if err != nil {
 		return nil, err
 	}
