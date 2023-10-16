@@ -10,7 +10,7 @@ import (
 
 var publicDir string
 
-func sendFile(file string, w http.ResponseWriter, data interface{}) error {
+func SendFile(file string, w http.ResponseWriter, data interface{}) error {
 	fPath := filepath.Join(publicDir, file)
 	// Check file exist
 	if _, err := os.Stat(fPath); os.IsNotExist(err) {
@@ -41,6 +41,29 @@ func sendFile(file string, w http.ResponseWriter, data interface{}) error {
 	return err
 }
 
+// func SendTemplate(w http.ResponseWriter, r *http.Request, file string, data interface{}) error {
+// 	// Generate Paths for file and directory
+// 	templateDir := filepath.Join(publicDir, "templates")
+// 	file = filepath.Join(templateDir, file)
+
+// 	// Check for File
+// 	if _, err := os.Stat(file); errors.Is(os.ErrNotExist, err) {
+// 		err := &SRE{
+// 			Code: 404,
+// 			W:    w,
+// 		}
+// 		err = err.SendHTML()
+// 		if err != nil {
+// 			return err
+// 		}
+// 	}
+// 	// Parse File
+// 	// Check for Error
+// 	// Send Result
+// 	// Send Error
+// 	return nil
+// }
+
 func StartServer(address string, publicDirectory string) {
 	publicDir = publicDirectory
 	// Main Web Container
@@ -67,5 +90,5 @@ func StartServer(address string, publicDirectory string) {
 }
 
 func MainPage(w http.ResponseWriter, r *http.Request) {
-	sendFile("MAIN.html", w, nil)
+	SendFile("MAIN.html", w, nil)
 }

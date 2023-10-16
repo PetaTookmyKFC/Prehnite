@@ -6,6 +6,7 @@ import (
 	"net/http"
 )
 
+var publicLocation string
 var IDepot *database.DBDepot
 var ApiMethod = "GET"
 
@@ -36,7 +37,19 @@ func CMR(w http.ResponseWriter, r *http.Request, override string) error {
 
 func BindAndStartRoutes(address string, publicDirectory string, Depot *database.DBDepot) {
 	IDepot = Depot
+	publicLocation = publicDirectory
 	// List Depots
 	DepoAPI()
 	server.StartServer(address, publicDirectory)
+}
+
+// Check if the request fould be formatted for htmx or just as json
+func BaseJSON(r *http.Request) bool {
+	// Check if RawQuery constains "BASE"
+
+	if r.URL.Query().Get("B") != "" && r.URL.Query().Get("B") != "False" {
+		return true
+	} else {
+		return false
+	}
 }
