@@ -4,11 +4,12 @@ import (
 	database "JsonLanguage/Database"
 	"JsonLanguage/api/server"
 	"net/http"
+	"strings"
 )
 
 var publicLocation string
 var IDepot *database.DBDepot
-var ApiMethod = "GET"
+var ApiMethod = "POST"
 
 // Check if the correct method is used
 func CM(w http.ResponseWriter, r *http.Request) error {
@@ -47,9 +48,10 @@ func BindAndStartRoutes(address string, publicDirectory string, Depot *database.
 func BaseJSON(r *http.Request) bool {
 	// Check if RawQuery constains "BASE"
 
-	if r.URL.Query().Get("B") != "" && r.URL.Query().Get("B") != "False" {
-		return true
-	} else {
-		return false
+	if r.URL.Query().Get("B") != "" {
+		if strings.ToUpper(r.URL.Query().Get("B")) == "TRUE" {
+			return true
+		}
 	}
+	return false
 }

@@ -3,20 +3,24 @@ package api
 import (
 	"JsonLanguage/api/server"
 	"encoding/json"
-	"fmt"
 	"net/http"
 	"path/filepath"
 )
 
 func DepoAPI() {
-	http.HandleFunc("/api/lst", DepoListApi)
+	http.HandleFunc("/api/depot/list", DepoListApi)
+	http.HandleFunc("/api/depot/info", DepoInfoApi)
 }
 
 func DepoListApi(w http.ResponseWriter, r *http.Request) {
-	CM(w, r)
+	err := CM(w, r)
+	if err != nil {
+		return
+	}
+
 	output := IDepot.ListContainers()
 
-	fmt.Println("Running Updated Function!")
+	// fmt.Println("Running Updated Function!")
 
 	if BaseJSON(r) {
 		w.WriteHeader(200)
@@ -30,12 +34,19 @@ func DepoListApi(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 		w.Write(data)
-		fmt.Println("Responding with Json")
+		// fmt.Println("Responding with Json")
 	} else {
 
 		fLoc := filepath.Join("templates", "menu", "DatabaseSelect.html")
 		server.SendFile(fLoc, w, output)
-
-		fmt.Println("Responding with Template")
+		// fmt.Println("Responding with Template")
 	}
+}
+
+func DepoInfoApi(w http.ResponseWriter, r *http.Request) {
+	err := CM(w, r)
+	if err != nil {
+		return
+	}
+
 }

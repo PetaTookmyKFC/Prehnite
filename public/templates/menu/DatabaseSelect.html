@@ -1,6 +1,5 @@
 {{range $i, $a := .}}
-    <option>
-
-        {{$i}}: {{$a}}
+    <option value="{{$i}}-{{$a}}" id="DP{{$i}}-{{$a}}">
+        {{$a}}
     </option>
 {{end}}

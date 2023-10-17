@@ -1,22 +1,49 @@
-
-<style>
-
-</style>
-
 <div class="Sidebar">
-    
     <fieldset>
         <legend>Depot</legend>
 
-        <select>
-    
+        <select onchange="UpdateDepot()" id="DepotSelect">
             <option disabled="disabled" selected="selected" value="Select Database">Select Depot</option>
-             <!-- <div  hx-trigger="click" hx-history="false" >
-                CLICK HERE
-             </div> -->
-    
+            <option hx-post="/api/depot/list" hx-trigger="htmx:afterProcessNode" hx-history="false" hx-swap="outerHTML">
+            </option>
         </select>
 
+        <div class="DataShow">
+            <!-- Show the data for the selected table -->
+            <label>Name</label><input disabled="disabled" type="text" value="nil">
+            <label>Location</label><input disabled="disabled" type="text" value="nil">
+        </div>
     </fieldset>
-</div>
+    <script>
+        globalThis.DC = {
+            DepotID : localStorage.getItem("PD_Depot"),
 
+            init : function () {
+                nm = localStorage.getItem("PD_Depot"),
+                DepotSelect = document.getElementById("DepotSelect")
+                console.log(`DP${nm}`)
+                setTimeout(() => {
+                    DepotSelect.options.namedItem(`DP${nm}`).selected = "selected" 
+                }, 10);
+                return nm
+            },
+
+            get SelectedDepot () {
+                console.log("GOT DP", DepotID)
+                return DepotID
+            },
+            set SelectedDepot (name) {
+                console.log("UPDATED LS", name)
+                DepotID = name;
+                localStorage.setItem("PD_Depot", name)
+            }
+        }
+        DC.init()
+
+        function UpdateDepot() {
+            console.log("Started")
+            ds = document.getElementById("DepotSelect")
+            DC.SelectedDepot = ds.value;
+        }
+    </script>
+</div>
