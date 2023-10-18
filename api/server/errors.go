@@ -10,8 +10,9 @@ import (
 var ApiMethod = "GET"
 
 type SRE struct {
-	Code int
-	W    http.ResponseWriter
+	Code    int
+	Message string
+	W       http.ResponseWriter
 }
 
 func (se *SRE) SendHTML() error {
@@ -27,7 +28,7 @@ func (se *SRE) SendHTML() error {
 		return err
 	}
 	// Create Template
-	err = tmp.Execute(se.W, nil)
+	err = tmp.Execute(se.W, se.Message)
 	if err != nil {
 		return err
 	}
@@ -38,6 +39,10 @@ func (se *SRE) Error() string {
 
 	// Send Correct responce code
 	switch se.Code {
+	case 400:
+		{
+			return "Bad Request"
+		}
 	case 405:
 		{
 			return "Method Not Allowed"
@@ -45,6 +50,10 @@ func (se *SRE) Error() string {
 	case 404:
 		{
 			return "File Not Found"
+		}
+	case 420:
+		{
+			return "Missing URL wildcard"
 		}
 	case 500:
 		{

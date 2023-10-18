@@ -15,9 +15,8 @@ func main() {
 		fmt.Println(err)
 		os.Exit(2)
 	}
-	depoPath := filepath.Join(wd, "DatabaseDepot")
 
-	depot, err := database.StartDatabase(depoPath)
+	depot, err := database.StartDatabase(wd)
 	if err != nil {
 		fmt.Println(err)
 		os.Exit(2)

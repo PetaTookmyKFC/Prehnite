@@ -55,3 +55,11 @@ func BaseJSON(r *http.Request) bool {
 	}
 	return false
 }
+
+// Get the information from the url removing the prefix
+func GetWildCardQuery(reqPath string, prefixPath string) (pathArray []string) {
+	reqPath = strings.TrimPrefix(reqPath, prefixPath)
+
+	pathArray = strings.Split(reqPath, "/")
+	return pathArray
+}

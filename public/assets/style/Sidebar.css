@@ -6,3 +6,24 @@
     gap: 5px;
     text-align: right;
 }
+
+#Btn_NewContainer {
+    background: rgb(100, 170, 100);
+
+    width: min-content;
+    padding: 0.2rem;
+
+    float:right;
+
+    border-radius: 0.1rem;
+    text-align: center;
+}
+#Btn_NewContainer:hover {
+    background: rgb(130,200,120);
+    cursor:pointer;
+}
+dialog::backdrop {
+    background: rgba(120, 120,120, 0.2);
+    backdrop-filter: blur(20px);
+
+}

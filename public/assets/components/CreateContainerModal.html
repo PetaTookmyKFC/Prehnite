@@ -1,0 +1,53 @@
+<dialog id="nwDialog" class="ModelBackdrop" >
+    <p>Create New Container</p>
+    <!-- <form method="POST" action="/api/depot/create"> -->
+    <form method="dialog">
+        <input type="text" placeholder="Name" name="NCName" id="NCName" />
+
+        <input type="submit" value="Create" id="EnterCreateContainer" />
+        <input type="button" value="Cancel" id="CloseCreateContainer" />
+    </form>
+</dialog>
+<script>
+    // Script for the Create Container Modal
+    // createContainerButton = 
+    createContainerModal = document.getElementById("nwDialog");
+    createContainerModal_Close = document.getElementById(
+        "CloseCreateContainer"
+    );
+    createContainerModal_Name = document.getElementById("NCName")
+    // createContainerModal_Location = document.getElementById(
+    //     "NwContainerLocation"
+    // );
+    
+    createContainerModal_Close.addEventListener("click", (e) => {
+        createContainerModal_Name.value = "";
+        // createContainerModal_Location.value =  "";
+        createContainerModal.close()
+    })
+    
+    createContainerModal.addEventListener("submit", function(e) {
+        
+        console.log("Making Request")
+        MkRequest("/api/depot/create", {
+            Name : createContainerModal_Name.value,
+        }, "POST").then((data) => {
+            console.log(data)
+        }).catch ((err)=> {
+            console.error(err)
+        })
+
+    })
+    // Auto Show Modal
+    createContainerModal.showModal()
+
+    document.getElementById("Btn_NewContainer").addEventListener("click", (e) => {
+        e.preventDefault()
+
+        createContainerModal.showModal();
+
+    })
+
+
+    
+</script>

@@ -5,11 +5,12 @@
     <title>Document</title>
     <script src="https://unpkg.com/htmx.org@1.9.6"></script>
     <script src="/a/global/htmx.js"></script>
+    <script src="/a/global/ajax.js"></script>
     <link rel="stylesheet" href="/a/style/Sidebar.css">
 </head>
 <body>
     <h1>MAIN PAGE</h1>
-    <div hx-get="/a/menu.html" hx-swap="innerHTML" hx-trigger="load" hx-history="false">
+    <div hx-get="/a/components/menu.html" hx-swap="innerHTML" hx-trigger="load" hx-history="false">
     </div>
 </body>
 </html>

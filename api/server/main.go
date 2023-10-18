@@ -16,8 +16,9 @@ func SendFile(file string, w http.ResponseWriter, data interface{}) error {
 	if _, err := os.Stat(fPath); os.IsNotExist(err) {
 
 		err := &SRE{
-			Code: 404,
-			W:    w,
+			Code:    404,
+			Message: file,
+			W:       w,
 		}
 		er := err.SendHTML()
 		if er != nil {

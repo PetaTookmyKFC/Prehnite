@@ -49,3 +49,7 @@ func (DD *DBContainer) AddDatabase(Name string, Location string) (id string, err
 	DD.Database[id] = RI
 	return id, nil
 }
+
+func (DD *DBContainer) Length() int {
+	return len(DD.Database)
+}

@@ -9,10 +9,16 @@ import (
 )
 
 type DBDepot struct {
+	WorkingDir string
 	Containers map[string]DBContainer
 }
 
 func (DD *DBDepot) AddDBContainer(Location string) error {
+
+	// Check if path is absolute
+	if !filepath.IsAbs(Location) {
+		Location = filepath.Join(DD.WorkingDir, Location)
+	}
 
 	// Create TmpName
 	TmpName := filepath.Base(Location)
@@ -83,6 +89,15 @@ func (DD *DBDepot) ListContainers() []string {
 		rString = append(rString, id)
 	}
 	return rString
+}
+
+// Checks if Container exists within depot
+func (DD *DBDepot) GetContainerByName(name string) (container *DBContainer, err error) {
+	if container, ok := DD.Containers[name]; ok {
+		return &container, nil
+	}
+
+	return nil, os.ErrNotExist
 }
 
 // func (DD *DBContainer) DatabaseList() {
