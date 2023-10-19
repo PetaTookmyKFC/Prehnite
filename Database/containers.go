@@ -5,6 +5,17 @@ import (
 	"os"
 )
 
+/*
+	"Depot" : {
+		"CONTAINER NAME" : {
+			"DatabaseName" : {
+				"Name": string,
+				"Location": filepath
+			}
+		}
+	}
+*/
+
 type DBContainer struct {
 	Database map[string]Database
 }

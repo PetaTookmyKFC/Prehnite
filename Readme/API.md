@@ -14,7 +14,7 @@ All routes begin with `/api/`
 
 Route : `/api/depot/list` 
 Method : `Post`
-Description: Returns a list of the current Depots saved on the server
+Description: Returns a list of the current containers saved on the server
 Params: 
 1. B
 	This is used to ask the server for a non formatted response.  This should be excluded from the URL entirely to ensure it isn't processed. 
@@ -34,7 +34,7 @@ Params:
 
 ### Depot Info
 
-<p align="center" style="border-bottom: solid 1px; font-size: 1.2rem;">THIS INFORMATION IS SUBJECT TO CHANGE</p>
+<p align="center" style="border-bottom: solid 1px; font-size: 1.2rem;">THIS INFORMATION IS SUBJECT TO CHANGE<br>THIS IS NOT ENABLED</p>
 
 
 Route : `/api/depot/info`
@@ -53,4 +53,25 @@ Params :
 2. Depot
 	This is used to inform the server what depot you would like information about.
 
+
+### Create Container
+
+<p align="center" style="border-bottom: solid 1px; font-size: 1.2rem;">THIS INFORMATION IS SUBJECT TO CHANGE<br>THIS IS NOT ENABLED</p>
+
+
+Route : `/api/depot/info`
+Method : `POST`
+Params : 
+1. B
+	This is used to ask the server for a non formatted response.  This should be excluded from the URL entirely to ensure it isn't processed. 
+	Response with B=true
+```json
+{
+	Name : "Example Name",
+	Location: "C:/Example",
+}
+```
+
+2. Depot
+	This is used to inform the server what depot you would like information about.
 
