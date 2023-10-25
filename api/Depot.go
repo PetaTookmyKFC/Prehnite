@@ -46,6 +46,9 @@ func DepoCreate(w http.ResponseWriter, r *http.Request) {
 	IDepot.AddDBContainer(NCLoc.Name)
 	w.WriteHeader(200)
 	w.Write([]byte("CreatedContainer?"))
+
+	IDepot.SaveConfig()
+
 }
 
 func DepoListApi(w http.ResponseWriter, r *http.Request) {

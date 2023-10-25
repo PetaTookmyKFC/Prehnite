@@ -82,6 +82,7 @@ func StartServer(address string, publicDirectory string) {
 	staticHandler := http.StripPrefix("/a/", staticAssets)
 	http.Handle("/a/", staticHandler)
 
+	// go http.ListenAndServe(address, nil)
 	// Host the Server
 	err := http.ListenAndServe(address, nil)
 	if err != nil {
