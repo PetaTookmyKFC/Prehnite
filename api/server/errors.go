@@ -5,6 +5,7 @@ import (
 	"html/template"
 	"net/http"
 	"path/filepath"
+	"strings"
 )
 
 var ApiMethod = "GET"
@@ -12,13 +13,32 @@ var ApiMethod = "GET"
 type SRE struct {
 	Code    int
 	Message string
+	BJson   bool
 	W       http.ResponseWriter
+}
+
+func BaseJSON(r *http.Request) bool {
+	// Check if RawQuery constains "BASE"
+
+	if r.URL.Query().Get("B") != "" {
+		if strings.ToUpper(r.URL.Query().Get("B")) == "TRUE" {
+			return true
+		}
+	}
+	return false
 }
 
 func (se *SRE) SendHTML() error {
 	// Send Error file placed in `Public/assets/codePages/` depending on the error
 	se.W.WriteHeader(se.Code)
 	fname := fmt.Sprintf("%d.html", se.Code)
+
+	if se.BJson {
+		se.W.WriteHeader(se.Code)
+		se.W.Write([]byte("{Message: '" + se.Error() + " - " + se.Message + "'}"))
+		return nil
+	}
+
 	fPath := filepath.Join(publicDir, "assets", "codePages", fname)
 
 	tmp, err := template.ParseFiles(fPath)

@@ -10,6 +10,7 @@ import (
 func DepoAPI() {
 	http.HandleFunc("/api/depot/list", DepoListApi)
 	http.HandleFunc("/api/depot/create", DepoCreate)
+	http.HandleFunc("/api/depot/recalculate", RecalculateCondfig)
 	// http.HandleFunc("/api/depot/info/", DepoInfoApi)
 }
 
@@ -29,7 +30,13 @@ func DepoCreate(w http.ResponseWriter, r *http.Request) {
 	decoder := json.NewDecoder(r.Body)
 	err = decoder.Decode(&NCLoc)
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusBadRequest)
+
+		errRes := server.SRE{
+			Code:    400,
+			Message: err.Error(),
+			BJson:   BaseJSON(r),
+		}
+		errRes.SendHTML()
 		return
 	}
 
@@ -38,14 +45,20 @@ func DepoCreate(w http.ResponseWriter, r *http.Request) {
 			Code:    400,
 			Message: "`Name` paramater cannot be empty",
 			W:       w,
-		}
+			BJson:   BaseJSON(r),
+		} /////
 		s_err.SendHTML()
 		return
 	}
 
 	IDepot.AddDBContainer(NCLoc.Name)
 	w.WriteHeader(200)
-	w.Write([]byte("CreatedContainer?"))
+
+	if BaseJSON(r) {
+		w.Write([]byte("{message: 'Created Container'}"))
+	} else {
+		w.Write([]byte("Created Container"))
+	}
 
 	IDepot.SaveConfig()
 
@@ -66,8 +79,9 @@ func DepoListApi(w http.ResponseWriter, r *http.Request) {
 		data, err := json.Marshal(output)
 		if err != nil {
 			err := &server.SRE{
-				Code: 500,
-				W:    w,
+				BJson: true,
+				Code:  500,
+				W:     w,
 			}
 			err.SendHTML()
 			return
@@ -80,6 +94,28 @@ func DepoListApi(w http.ResponseWriter, r *http.Request) {
 		server.SendFile(fLoc, w, output)
 		// fmt.Println("Responding with Template")
 	}
+}
+
+func RecalculateCondfig(w http.ResponseWriter, r *http.Request) {
+	err := CM(w, r)
+	if err != nil {
+		return
+	}
+
+	err = IDepot.RecalculateConfig()
+	if err != nil {
+		htmlError := &server.SRE{
+			Code:    500,
+			Message: err.Error(),
+			BJson:   BaseJSON(r),
+		}
+		htmlError.SendHTML()
+		return
+	}
+
+	w.WriteHeader(200)
+	w.Write([]byte("Recalculated"))
+
 }
 
 // func DepoInfoApi(w http.ResponseWriter, r *http.Request) {

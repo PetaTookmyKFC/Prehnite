@@ -17,6 +17,13 @@
                 hx-swap="outerHTML"
             ></option>
         </select>
+        <button
+            hx-post="/api/depot/Recalculate"
+            hx-swap="innerHTML"
+            hx-trigger="click"
+        >
+            R
+        </button>
 
         <div
             id="Btn_NewContainer"
@@ -42,10 +49,20 @@
                 (nm = localStorage.getItem("PD_Depot")),
                     (DepotSelect = document.getElementById("DepotSelect"));
                 console.log(`DP${nm}`);
+                // Check a value is saved
+                if (nm != "") {
                 setTimeout(() => {
-                    DepotSelect.options.namedItem(`DP${nm}`).selected =
-                        "selected";
-                }, 500);
+                        // Check items exist
+                        let item = DepotSelect.options.namedItem(`DP-${nm}`)
+
+                        console.log(item != undefined)
+                        if (item != undefined) {
+                            item.selected = "selected";
+                        } else {
+                            this.SelectedDepot = "";
+                        }
+                    }, 500);
+                }
                 return nm;
             },
 
