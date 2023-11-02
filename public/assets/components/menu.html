@@ -2,7 +2,7 @@
     <fieldset>
         <legend>Depot</legend>
 
-        <select onchange="UpdateDepot()" id="DepotSelect">
+        <select onchange="UpdateDepot()" id="DepotSelect" hx-target="#DatabaseExplorer" hx-trigger="change" hx-get="/a/components/DatabaseExplorer.html">
             <option
                 disabled="disabled"
                 selected="selected"
@@ -10,15 +10,16 @@
             >
                 Select Depot
             </option>
-            <option
+            <option id="DepoSelectOption"
                 hx-post="/api/depot/list"
                 hx-trigger="htmx:afterProcessNode"
                 hx-history="false"
                 hx-swap="outerHTML"
+                hx-target="#DepoSelectOption"
             ></option>
         </select>
         <button
-            hx-post="/api/depot/Recalculate"
+            hx-post="/api/depot/recalculate"
             hx-swap="innerHTML"
             hx-trigger="click"
         >
@@ -47,17 +48,19 @@
 
             init: function () {
                 (nm = localStorage.getItem("PD_Depot")),
-                    (DepotSelect = document.getElementById("DepotSelect"));
+                (DepotSelect = document.getElementById("DepotSelect"));
                 console.log(`DP${nm}`);
                 // Check a value is saved
                 if (nm != "") {
                 setTimeout(() => {
-                        // Check items exist
+                        // Check items exist ( get database info from store )
                         let item = DepotSelect.options.namedItem(`DP-${nm}`)
 
                         console.log(item != undefined)
                         if (item != undefined) {
                             item.selected = "selected";
+                            // Trigger database Explorer to load
+                            htmx.trigger("#DepotSelect", "change")
                         } else {
                             this.SelectedDepot = "";
                         }

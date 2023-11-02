@@ -23,6 +23,7 @@ func StartDatabase(workingDirectory string) (DD *DBDepot, err error) {
 		if err != nil {
 			return nil, err
 		}
+		DD.SaveConfig()
 	}
 
 	return DD, nil
