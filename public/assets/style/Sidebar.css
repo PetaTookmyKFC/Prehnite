@@ -8,6 +8,10 @@
 }
 
 #Btn_NewContainer {
+
+    border-bottom: 1px black solid;
+    border-right: 1px solid black;
+
     background: rgb(100, 170, 100);
 
     width: min-content;
@@ -18,6 +22,12 @@
     border-radius: 0.1rem;
     text-align: center;
 }
+#Btn_NewContainer:active {
+    border-bottom: none;
+    border-right: none;
+    border-top: gray 1px solid;
+    border-left :gray 1px solid;
+}
 #Btn_NewContainer:hover {
     background: rgb(130,200,120);
     cursor:pointer;
@@ -26,4 +36,22 @@ dialog::backdrop {
     background: rgba(120, 120,120, 0.2);
     backdrop-filter: blur(20px);
 
+}
+body {
+    padding: 0px;
+    margin: 0px;
+
+    display: grid;
+
+    background: rgb(200,200,200);
+
+    grid-template-rows: 0.25fr 1fr;
+    gap: 5px;
+
+
+    width: 100%;
+    height: 100%;
+}
+#DatabaseExplorer {
+    height: 100%;
 }

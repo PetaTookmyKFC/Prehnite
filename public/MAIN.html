@@ -4,12 +4,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <script src="https://unpkg.com/htmx.org@1.9.6"></script>
-    <script src="/a/global/htmx.js"></script>
-    <script src="/a/global/ajax.js"></script>
+    <script src="/a/js/htmx.js"></script>
+    <script src="/a/js/ajax.js"></script>
+    <script src="/a/js/resize.js"></script>
+
     <link rel="stylesheet" href="/a/style/Sidebar.css">
+    <link rel="stylesheet" href="/a/style/DatabaseExplorer.css">
+    <link rel="stylesheet" href="/a/style/resize.css">
 </head>
 <body>
-    <h1>MAIN PAGE</h1>
     <div hx-get="/a/components/menu.html" hx-swap="innerHTML" hx-trigger="load" hx-history="false">
     </div>
 

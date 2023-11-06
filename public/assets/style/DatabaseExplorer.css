@@ -1,0 +1,29 @@
+.DBExplorer {
+    /* margin: 5px; */
+    height: 100%;
+    background:red;
+
+    display: grid;
+    grid-template-columns: min-content 1fr;
+    grid-template-rows: 1fr;
+
+    overflow: hidden;
+
+    max-width: 100vw;
+
+    background: rgb(200,200,200);
+
+    gap: 5px;
+}
+.DBExplorer > * {
+
+
+
+    padding :0px;
+    
+    background: rgb(230,230,230);
+
+
+    border-top: black 1px solid;
+    border-left :black 1px solid;
+}

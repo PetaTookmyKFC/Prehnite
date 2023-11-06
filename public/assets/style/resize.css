@@ -1,0 +1,24 @@
+.RightResize::after {
+    content: "";
+    /* background:blue; */
+
+    width: 10px;
+    height: calc(100% + 2px);
+
+    /* background: rgb(200,200,200); */
+
+    position:absolute;
+    right: -10px;
+    top: -1px;
+    cursor:ew-resize;
+
+    overflow:visible;
+
+    /* border-right: solid black 1px; */
+}
+.RightResize {
+    position:relative;
+}
+.SideMenuContaine {
+    overflow:hidden;
+}
