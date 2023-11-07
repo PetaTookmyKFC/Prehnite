@@ -1,4 +1,4 @@
-package database
+package Depot
 
 import "path/filepath"
 

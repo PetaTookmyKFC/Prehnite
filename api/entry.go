@@ -1,14 +1,14 @@
 package api
 
 import (
-	database "JsonLanguage/Database"
+	"JsonLanguage/Depot"
 	"JsonLanguage/api/server"
 	"net/http"
 	"strings"
 )
 
 var publicLocation string
-var IDepot *database.DBDepot
+var IDepot *Depot.DBDepot
 var ApiMethod = "POST"
 
 // Check if the correct method is used
@@ -36,7 +36,7 @@ func CMR(w http.ResponseWriter, r *http.Request, override string) error {
 	}
 }
 
-func BindAndStartRoutes(address string, publicDirectory string, Depot *database.DBDepot) {
+func BindAndStartRoutes(address string, publicDirectory string, Depot *Depot.DBDepot) {
 	IDepot = Depot
 	publicLocation = publicDirectory
 	// List Depots

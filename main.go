@@ -1,7 +1,7 @@
 package main
 
 import (
-	database "JsonLanguage/Database"
+	"JsonLanguage/Depot"
 	"JsonLanguage/api"
 	"fmt"
 	"os"
@@ -16,7 +16,7 @@ func main() {
 		os.Exit(2)
 	}
 
-	depot, err := database.StartDatabase(wd)
+	depot, err := Depot.StartDatabase(wd)
 	if err != nil {
 		fmt.Println(err)
 		os.Exit(2)
